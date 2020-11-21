@@ -1,0 +1,498 @@
+Creating tables and implementing them:
+Tables’ list:
+•	Building
+•	Building_types
+•	Company
+•	Contracts
+•	Employers
+•	Interns
+•	Jobs
+•	Resources
+•	Work_pos
+•	Workers
+
+
+Creating table JOBS:
+CREATE TABLE JOBS (
+Job_ID INT PRIMARY KEY,
+Job_name VARCHAR(255) NOT NULL,
+description TEXT
+)
+ 
+Creating table INTERNS:
+CREATE TABLE Interns (
+Intern_ID INT PRIMARY KEY,
+Name VARCHAR(255) NOT NULL,
+Age DATE NOT NULL,
+job_id INT REFERENCES jobs
+)
+ 
+Creating table WORK_POS:
+CREATE TABLE WORK_POS (
+Pos_ID INT PRIMARY KEY,
+Pos_Name VARCHAR(255) NOT NULL
+)
+ 
+Creating table WORKERS:
+CREATE TABLE WORKERS (
+Worker_ID INT PRIMARY KEY,
+Name VARCHAR(255) NOT NULL,
+Surname VARCHAR(255) NOT NULL,
+Date_of_Birth DATE NOT NULL,
+Status INT UNIQUE REFERENCES work_pos(pos_id),
+Job INT NOT NULL REFERENCES jobs(job_id),
+Salary_date DATE NOT NULL
+)
+ 
+
+
+Creating table Employers:
+CREATE TABLE Employers (
+Employers_ID INT PRIMARY KEY,
+Name VARCHAR(255) NOT NULL,
+description TEXT NOT NULL
+)
+ 
+Creating table Company:
+CREATE TABLE Company (
+Company_ID INT PRIMARY KEY,
+Company_name VARCHAR(255) NOT NULL,
+Company_City VARCHAR(255) NOT NULL
+)
+ 
+Creating table Building_Types:
+CREATE TABLE Building_Types (
+Type_ID INT PRIMARY KEY,
+Type_name VARCHAR(255) NOT NULL,
+description TEXT
+)
+ 
+Creating table Building:
+CREATE TABLE Building (
+Building_ID INT PRIMARY KEY,
+Building_name VARCHAR(255) NOT NULL,
+type_ID INT references building_types
+)
+ 
+Creating table Contracts:
+CREATE TABLE Contracts (
+Contract_ID INT PRIMARY KEY,
+Employers_ID INT NOT NULL REFERENCES Employers,
+Building_ID INT NOT NULL REFERENCES Building,
+Start_Date DATE NOT NULL,
+End_Date DATE NOT NULL
+)
+ 
+Creating table Resources:
+CREATE TABLE Resources (
+Resource_ID INT PRIMARY KEY,
+Resource_name VARCHAR(255) NOT NULL,
+Company_ID INT NOT NULL REFERENCES Company,
+Building_ID INT NOT NULL REFERENCES Building,
+Cost VARCHAR(255) NOT NULL
+)
+ 
+
+
+SQL ALTER TABLE statements:
+Adding columns for “intern” table:
+ALTER TABLE interns 
+ADD COLUMN surname VARCHAR(255) NOT NULL
+ 
+
+Adding column for “work_pos” table:
+ALTER TABLE work_pos 
+ADD COLUMN description text NOT NULL
+ 
+
+Adding column in “company” table:
+ALTER TABLE company
+ADD COLUMN description TEXT
+ 
+
+Dropping constraint for “workers” table:
+ALTER TABLE workers 
+ALTER COLUMN salary_date DROP NOT NULL;
+
+Adding constraint to “building_types”:
+ALTER TABLE building_types
+ALTER COLUMN description SET NOT NULL
+
+Changing datatype in “resources” table:
+ALTER TABLE resources
+ALTER COLUMN cost TYPE INT
+USING cost::integer;
+
+Renaming the columns in “interns” table:
+ALTER TABLE interns
+RENAME COLUMN age TO date_of_birth
+ 
+Dropping column in “company” table:
+ALTER TABLE company
+DROP COLUMN company_city RESTRICT
+ 
+
+Adding constraint to column in “company” table:
+ALTER TABLE company 
+ALTER COLUMN description SET NOT NULL;
+DML statements: INSERT:
+Inserting Values into “employers” table:
+INSERT INTO employers (employers_id, name, description)
+VALUES ('1', 'StroyCity', 'The company works on erssettlement of citizens'),
+('2', 'ZhailyAuil', 'The company works on improving the architecture of villages'),
+('3', 'NurBolashak', 'The company works on dissemination of cities'),
+('4', 'ZhiloiMassive', 'The company works on building the residentials'),
+('5', 'ZhilBatys', 'Works on apartments for individuals'),
+('6', 'Kanagat', 'Works on village expansion'),
+('7', 'MedWorks', 'Work on bedical support by buidling medical places'),
+('8', 'YarkiyDvor', 'Focuses on yards in cities apartaments'),
+('9', 'MarketZhilStroy', 'Places shops and other store-bought centres'),
+('10', 'ArtLifeStroy', 'Works on new wave of arhitecture buildings');
+ 
+Inserting Values into “building_types” table:
+INSERT INTO building_types (type_id, type_name, description)
+VALUES ('1', 'Apartment', 'Common type for living/Residential'),
+('2', 'Cultural', 'Building appinted for cultural aims'),
+('3', 'Asrtistic', 'Scene or other podiums built for cultural and art objective'),
+('4', 'Athletic', 'Building related to sports and competitives'),
+('5', 'Personal', 'Registered for short range of use'),
+('6', 'Store', 'Shops and Markets type'),
+('7', 'Club-Oriented', 'For short-range of use for some group'),
+('8', 'Institutional', 'Lessons and Knowledge oriented type'),
+('9', 'Storage', 'Used as safes and place for saving the resources and other items'),
+('10', 'Industrial', 'Works on creation and Managing the resources');
+ 
+Inserting Values into “company” table:
+INSERT INTO company (company_id, company_name, description)
+VALUES ('1', 'WoodPany', 'The company which focuses on wooden resource types or its replacments'),
+('2', 'Concet', 'Creates a fundaments and main resources used in buildings'),
+('3', 'Metalblue', 'Sell the metal foundations for floors and walls'),
+('4', 'ComStone', 'Creates a custom resources for companies like paints and others'),
+('5', 'WoodenLife', 'Works on wooden fundaments and fastening'),
+('6', 'MetalFun', 'Creates resources with metal of different forms'),
+('7', 'ConreteCentre', 'Produces high-qualified concrete from sand and dirt'),
+('8', 'Bricking Bad', 'A large company who produces bricks of different sizes and forms'),
+('9', 'GlassCamp', 'Woks with glass and its creation'),
+('10', 'PlasticWorld', 'Creates a substitution of any material with plastic and its reproducements');
+ 
+Inserting Values into “building” table:
+INSERT INTO building (building_id, building_name, type_id)
+VALUES ('1', 'National Art Museum', '2'),
+('2', 'Comfort Live', '1'),
+('3', 'Orchestra centre', '3'),
+('4', 'Sport is live', '4'),
+('5', 'Football Style', '4'),
+('6', 'Living good', '1'),
+('7', 'Peace Resident', '2'),
+('8', 'Kurmangazy school', '3'),
+('9', 'Night Stars', '3'),
+('10', 'For you', '1'),
+('11', 'KazHist', '2'),
+('12', 'StadGym', '4');
+('13', 'Mayor House', '10'),
+('14', 'Happy Yard', '7'),
+('15', 'School of engineering', '10'),
+('16', 'Capital House', '5'),
+('17', 'Kurmangazy centre of music', '2'),
+('18', 'Ayna dance club', '6'),
+('19', 'Teen Cafe', '8'),
+('20', 'Chemistry producement', '9');
+ 
+Inserting Values into “contracts” table:
+INSERT INTO contracts (contract_id, employers_id, building_id, start_date, end_date)
+VALUES ('1', '3', '1', '25-09-2015', '27-09-2018'),
+('2', '1', '2', '01-05-2019', '12-10-2020'),
+('3', '1', '3', '27-03-2014', '10-05-2015'),
+('4', '2', '4', '20-01-2009', '27-07-2010'),
+('5', '1', '5', '15-12-2019', '20-03-2020'),
+('6', '4', '6', '07-10-2020', '09-01-2022'),
+('7', '4', '7', '06-08-2020', '19-04-2025'),
+('8', '3', '8', '13-05-2017', '17-04-2021'),
+('9', '2', '9', '27-03-2016', '05-06-2017'),
+('10', '3', '10', '20-04-2016', '30-12-2018'),
+('11', '4', '11', '15-07-2010', '24-10-2011'),
+('12', '2', '12', '13-08-2012', '13-06-2015'),
+('13', '7', '13', '25-11-2016', '27-03-2018'),
+('14', '10', '14', '12-06-2019', '27-09-2022'),
+('15', '9', '15', '13-08-2021', '27-07-2024'),
+('16', '5', '16', '21-09-2010', '27-08-2011'),
+('17', '4', '17', '10-02-2014', '27-03-2015'),
+('18', '8', '18', '05-05-2015', '27-04-2018'),
+('19', '6', '19', '09-04-2019', '27-02-2020'),
+('20', '1', '20', '14-01-2013', '27-01-2017');
+ 
+Inserting values into “resources” table:
+INSERT INTO resources (resource_id, resource_name, company_id, building_id, cost)
+VALUES ('1', 'wooden beam', '2', '12', '2000'),
+('2', 'metal plate', '3', '11', '7000'),
+('3', 'concrete', '4', '10', '12500'),
+('4', 'fence', '4', '7', '300'),
+('5', 'beton', '2', '6', '5000'),
+('6', 'attachment', '3', '9', '15000'),
+('7', 'plastic', '1', '3', '62000'),
+('8', 'bamboo', '1', '6', '35000'),
+('9', 'rammed earth', '3', '2', '29000'),
+('10', 'sand', '2', '1', '12000'),
+('11', 'probe', '1', '5', '3000'),
+('12', 'brick', '4', '3', '100'),
+('13', 'glass', '1', '4', '7500'),
+('14', 'ceramics', '2', '5', '6300'),
+('15', 'steel', '4', '3', '2000'),
+('16', 'carbon fiber', '3', '1', '1600'),
+('17', 'copper', '1', '2', '8400'),
+('18', 'aluminium', '2', '10', '19400'),
+('19', 'stone', '4', '8', '3600'),
+('20', 'paper', '3', '7', '21000');
+ 
+Inserting values into “jobs” table:
+INSERT INTO jobs (job_id, job_name, description)
+VALUES ('1', 'Builder', 'do a simple brick and concrete job'),
+('2', 'glazier', 'doworks with glass'),
+('3', 'tile setter', 'works with floor creating and tiling them'),
+('4', 'roofer', 'builds a roof of building');
+('5', 'carpenter', 'does a finishing job of a building by managing the floors'),
+('6', 'plumber', 'manages the pipeline and conducts it'),
+('7', 'Crane Operator', 'manages the crane'),
+('8', 'Inspector', 'observes the work and safety'),
+('9', 'engineer', 'makes a carcas of a construction'),
+('10', 'Electrician', 'conducts a electricity in building');
+ 
+Inserting values into “interns” table:
+INSERT INTO interns (intern_id, name, surname, date_of_birth, job_id)
+VALUES ('1', 'Askar', 'Maratov', '26-09-1997', '4'),
+('2', 'Marat', 'Kaliev', '12-01-1899', '3'),
+('3', 'Kaisar', 'Ibragimov', '19-07-1991', '7'),
+('4', 'Azamat', 'Abdrahmanov', '13-08-1994', '6'),
+('5', 'Dostyk', 'Iskakov', '20-09-1998', '5'),
+('6', 'Kairat', 'Suleimenov', '24-10-1998', '4'),
+('7', 'Usen', 'Aliev', '19-12-2000', '1'),
+('8', 'Erkebulan', 'Ivanov', '21-04-1999', '8'),
+('9', 'Sanzhar', 'Ospanov', '20-02-2001', '10'),
+('10', 'Meiramber', 'Kim', '17-01-1995', '3'),
+('11', 'Madiyar', 'Omarov', '14-03-1984', '8'),
+('12', 'Adilet', 'Akhmetov', '13-05-2004', '7'),
+('13', 'Bekarys', 'Anuarbekov', '26-09-2001', '3'),
+('14', 'Zhandos', 'Kozhin', '12-01-1975', '7'),
+('15', 'Meirzhan', 'Abitov', '13-05-1988', '6'),
+('16', 'Asan', 'Ermek', '12-01-1997', '5'),
+('17', 'Alymkhan', 'Zhadigerov', '12-01-2000', '4'),
+('18', 'Karen', 'Zhailaubayev', '12-01-1999', '1'),
+('19', 'Dastan', 'Samatovich', '12-01-2003', '8'),
+('20', 'Kenzhehan', 'Serikov', '12-01-2004', '10');
+ 
+
+Inserting Values into “work_pos” table:
+INSERT INTO work_pos (pos_id, pos_name, description)
+VALUES ('1', 'administrative', 'Works more with managing workers'),
+('2', 'Director', 'One of main principles of company'),
+('3', 'Supervisor', 'Analyzez the work of others'),
+('4', 'Manager', 'Works more with papers'),
+('5', 'Coordinator', 'Leader of group of workers'),
+('6', 'Analyst', 'Sorts the resources and workers job'),
+('7', 'Dev. Manager', 'Helps Manager'),
+('8', 'Contributor', 'A common worker, who contacts with Manager from all common workers'),
+('9', 'Agent', 'Searches for interns'),
+('10', 'Specialist', 'Master of his job and helps others');
+ 
+Inserting Values into “workers” table:
+INSERT INTO workers (worker_id, name, surname, date_of_birth, status, job, salary_date)
+VALUES ('1', 'Alton', 'Lynch', '19-06-1990', '10', '1', '20-11-2020'),
+('2', 'Sunil', 'Sumner', '09-08-1991', '2', '1', '25-09-2019'),
+('3', 'Ariyan', 'Folney', '31-08-1992', NULL, '2', '20-11-2020'),
+('4', 'Cohan', 'Anthony', '17-10-1993', '7', '3', '20-11-2020'),
+('5', 'Edgar', 'Armstrong', '23-01-1996', '8', '9', '12-07-2020'),
+('6', 'Caolan', 'Hernandez', '18-02-1997', '5', '4', '20-11-2020'),
+('7', 'Jody', 'Yates', '12-05-1997', '3', '8', '05-10-2020'),
+('8', 'Cassian', 'Rodriguez', '02-06-1999', '4', '5', '20-11-2020'),
+('9', 'Mylo', 'Kent', '15-09-2002', '1', '7', '01-11-2020'),
+('10', 'Faris', 'Bowler', '02-04-2003', '9', '6', '20-09-2020'),
+('11', 'Stewart', 'Bowler', '14-05-2003', '6', '7', '12-10-2020'),
+('12', 'Carmen', 'Boyd', '31-01-2004', NULL, '10', '20-10-2020');
+ 
+UPDATE and DELETE statements:
+
+Updating and Deleting Values in “employers” table:
+UPDATE employers
+SET description = 'Village expansion is one of its aims, along with city expansions'
+WHERE employers_id=2;
+ 
+
+DELETE
+FROM employers
+WHERE name = 'Batys';
+ 
+
+Updating and Deleting Values in “building_types” table:
+UPDATE building_types
+SET type_name = 'Manifacturing'
+WHERE type_name='Industrial';
+ 
+
+DELETE FROM building_types
+WHERE type_name='Gaming';
+ 
+
+Updating and Deleting Values in “company” table:
+UPDATE company
+SET company_name = 'MetalProduce'
+WHERE company_name='ZhivoyMetal';
+
+
+DELETE FROM company
+WHERE company_name='MetalProduce';
+
+
+Updating and Deleting Values in “contracts” table:
+UPDATE contracts
+SET end_date = ('26-09-2021')
+WHERE employers_id=2 and start_date>('26-05-2015');
+ 
+
+DELETE
+FROM contracts
+WHERE age(start_date)>interval '10 years';
+ 
+
+Updating and Deleting Values in “building” table:
+UPDATE building
+SET type_id = 4
+WHERE building_id=2;
+
+
+Updating and Deleting Values in “resources” table:
+UPDATE resources
+SET cost = cost + 500
+WHERE company_id = '3';
+
+
+DELETE FROM resources
+WHERE cost<=500;
+ 
+
+Updating and Deleting Values in “jobs” table:
+UPDATE jobs
+SET description = 'placing and working with glass and materials of such type'
+WHERE job_id=2;
+ 
+
+DELETE FROM jobs
+WHERE job_id=11;
+ 
+
+Updating and Deleting Values in “interns” table:
+UPDATE interns
+SET job_id = 4
+WHERE job_id=5;
+ 
+
+DELETE
+FROM interns
+WHERE AGE(date_of_birth) > interval '35 years';
+ 
+
+Updating and Deleting Values in “work_pos” table:
+UPDATE work_pos
+SET pos_name = 'Administrative' 
+WHERE pos_id = '1';
+ 
+
+DELETE 
+FROM work_pos
+WHERE pos_id='11';
+
+
+Updating and Deleting Values in “workers” table:
+UPDATE workers 
+SET salary_date = '20-11-2020' 
+WHERE job = '1' or job = '2';
+
+
+DELETE
+FROM workers
+WHERE AGE(date_of_birth) < interval '18 years';
+ 
+
+Queries:
+1.
+SELECT employers.employers_id, employers.name, building.building_id, building.building_name 
+FROM employers
+INNER JOIN contracts ON employers.employers_id=contracts.employers_id
+INNER JOIN building ON contracts.building_id=building.building_id
+ORDER BY employers.employers_id
+ 
+The Query selects Employer and Buildings that this Employer have ordered.
+
+
+2.
+SELECT building.building_id, building.building_name, COUNT(resources.building_id) AS resources_number
+FROM employers
+INNER JOIN contracts ON employers.employers_id=contracts.employers_id
+INNER JOIN building ON contracts.building_id=building.building_id
+INNER JOIN resources ON building.building_ID=resources.building_id
+WHERE employers.employers_id=1
+GROUP BY building.building_id
+ 
+The Query shows the buildings of Employer and the name of the building. 
+Also, it show the number of resources used in this building.
+
+3.
+SELECT building.building_id, building.building_name, SUM(resources.cost)
+FROM building
+INNER JOIN resources ON building.building_ID=resources.building_id
+GROUP BY building.building_id
+ORDER BY building.building_id
+ 
+The Query shows the building IDs and names, with the cost of all resources used in this building.
+
+
+
+
+4.
+SELECT workers.worker_id, workers.name, workers.surname, work_pos.pos_name, work_pos.description
+FROM workers
+INNER JOIN work_pos ON workers.status=work_pos.pos_id
+ORDER BY workers.worker_id
+ 
+The Query show workers who have positions in company. It also shows what p
+osition they have and description of it.
+
+
+5.
+SELECT workers.worker_id, workers.name, workers.surname, jobs.job_name, jobs.description
+FROM workers
+INNER JOIN jobs ON workers.job=jobs.job_id
+ORDER BY workers.worker_id
+ 
+The Query show the Workers and their jobs with short descriptions.
+
+
+6.
+SELECT interns.intern_id, interns.name, interns.surname, jobs.job_name, jobs.description
+FROM interns
+INNER JOIN jobs ON interns.job_id=jobs.job_id
+WHERE AGE(interns.date_of_birth)>= interval '18 years'
+ORDER BY interns.intern_id
+ 
+The Query shows the Interns’ data and the Job data that they have, whose age is more than 18.
+
+7.
+SELECT contract_id, employers.name AS employer, building.building_name AS building, (SELECT DATE_PART('year', end_date::date) - DATE_PART('year', start_date ::date)) AS contract_period
+FROM contracts
+INNER JOIN employers ON employers.employers_id=contracts.employers_id
+INNER JOIN building ON contracts.building_id=building.building_id
+WHERE AGE(start_date)<=interval '5 years'
+ORDER BY contract_id 
+
+The Query shows contracts’ id with employers’ who have passed them. 
+Also, it shows the building which were connected and the time length, 
+of how many time the contract were applicable.
+
+
+8.
+SELECT building.building_id, building.building_name, SUM(resources.cost) AS sum_cost 
+FROM building
+INNER JOIN resources on building.building_id=resources.building_id
+WHERE cost >= (SELECT MAX(Cost) FROM resources)
+GROUP BY building.building_id
+ 
+The Query shows the building, where the most expensive resource was used and also shows its cost.
